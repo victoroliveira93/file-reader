@@ -16,14 +16,17 @@ fs.readFile(link, "utf-8", (erro, texto) => {
   }
 });
 
-async function criaESalvaArquivo(listaPalavras, endereco) {
+function criaESalvaArquivo(listaPalavras, endereco) {
   const arquivoNovo = `${endereco}/resultado.txt`;
   const textoPalavras = JSON.stringify(listaPalavras);
 
-  try {
-    await fs.promises.writeFile(arquivoNovo, textoPalavras);
-    console.log("arquivo criado");
-  } catch (erro) {
-    throw erro;
-  }
+  fs.promises
+    .writeFile(arquivoNovo, textoPalavras)
+    .then(() => {
+      console.log("arquivo criado");
+    })
+    .catch((erro) => {
+      throw erro;
+    })
+    .finally(() => console.log("operação finalizada"));
 }
